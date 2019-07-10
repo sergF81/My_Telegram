@@ -5,24 +5,42 @@ import java.awt.event.ActionListener;
 import java.io.*;
 
 public class Chat extends JFrame {
-     public static JLabel textIn = new JLabel();
+     public static JTextArea textIn = new JTextArea();
+   public static JScrollPane jsp = new JScrollPane(textIn, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 
 
     public Chat(String smm) {
 
 
+
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+       // JTextArea text = new JTextArea(5,20);
+
         JPanel chatarea = new JPanel();
-        chatarea.setLayout((LayoutManager) null);
+            chatarea.setLayout((LayoutManager) null);
 
         JTextField textOut = new JTextField();
         textOut.setBounds(0, 0, 400, 100);
         chatarea.add(textOut);
 
-      //  JLabel textIn = new JLabel();
+        textIn.setLineWrap(true);
+        textIn.setWrapStyleWord(true);
+        textIn.setBackground(null);
+        textIn.setBorder(null);
+        textIn.setFocusable(false);
+        textIn.setEditable(false);
+
         textIn.setText(smm);
         textIn.setBounds(0, 120, 400, 200);
+        textIn.setWrapStyleWord(true);
+        textIn.setLineWrap(true);
         chatarea.add(textIn);
+
+        JScrollPane jsp = new JScrollPane(textIn);
+        jsp.setBounds(0, 120, 400, 200);
+        chatarea.add(jsp);
+
 
 
         JButton vvod = new JButton("RUB");
@@ -37,17 +55,23 @@ public class Chat extends JFrame {
         setContentPane(chatarea);
         setPreferredSize(new Dimension(690, 727));
 
+
+
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+
         vvod.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                        String Sreader = textOut.getText();
-                        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Client.client.getOutputStream()));
-                        writer.write(": " + Sreader);
-                        writer.newLine();
-                        writer.flush();
+                    String Sreader = textOut.getText();
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Client.client.getOutputStream()));
+                    writer.write(": " + Sreader);
+                    writer.newLine();
+                    writer.flush();
 
-                        textOut.setText("");
+                    textOut.setText("");
 
                 } catch (IOException r) {
                     r.printStackTrace();
@@ -55,10 +79,9 @@ public class Chat extends JFrame {
             }
         });
 
+    }
 
 
 
-
-        }
    // }
 }

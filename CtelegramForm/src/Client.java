@@ -5,8 +5,8 @@ import java.net.*;
 public class Client {
     public static Socket client;
  //   public static String smm="ППЦ";
-    public static JLabel textIn;
-
+    public static JTextArea textIn;
+    public static JScrollPane jsp;
 
     public static void main(String[] args) throws IOException {
       //    smm ="ППЦ";
@@ -14,7 +14,7 @@ public class Client {
 
 
 
-        new In(client, Chat.textIn);
+        new In(client, Chat.textIn, Chat.jsp);
 
 
 
