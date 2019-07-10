@@ -11,7 +11,7 @@ public class In {
     String smm1 = "";
     ArrayList<String> message = new ArrayList<String>();
     int y = 1;
-    public In(Socket client, JTextArea textIn, JScrollPane jsp) {
+    public In(Socket client, JTextArea textIn) {
 
         Chat frame = new Chat(smm);
       //  frame.add(scroll);

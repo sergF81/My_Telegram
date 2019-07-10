@@ -6,7 +6,7 @@ import java.io.*;
 
 public class Chat extends JFrame {
      public static JTextArea textIn = new JTextArea();
-   public static JScrollPane jsp = new JScrollPane(textIn, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+  // public static JScrollPane jsp = new JScrollPane(textIn, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 
 
@@ -20,7 +20,8 @@ public class Chat extends JFrame {
         JPanel chatarea = new JPanel();
             chatarea.setLayout((LayoutManager) null);
 
-        JTextField textOut = new JTextField();
+        JTextArea textOut = new JTextArea();
+        textOut.setLineWrap(true);
         textOut.setBounds(0, 0, 400, 100);
         chatarea.add(textOut);
 
