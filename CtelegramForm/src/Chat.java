@@ -6,19 +6,19 @@ import java.io.*;
 
 public class Chat extends JFrame {
      public static JTextArea textIn = new JTextArea();
+    public static JPanel chatarea;
   // public static JScrollPane jsp = new JScrollPane(textIn, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
+    private String nikname;
 
-
-    public Chat(String smm) {
+    public Chat(String smm, String nikname) {
 
 
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-       // JTextArea text = new JTextArea(5,20);
 
         JPanel chatarea = new JPanel();
-            chatarea.setLayout((LayoutManager) null);
+        chatarea.setLayout((LayoutManager) null);
 
         JTextArea textOut = new JTextArea();
         textOut.setLineWrap(true);
@@ -68,7 +68,7 @@ public class Chat extends JFrame {
                 try {
                     String Sreader = textOut.getText();
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Client.client.getOutputStream()));
-                    writer.write(": " + Sreader);
+                    writer.write(nikname + ": " + Sreader);
                     writer.newLine();
                     writer.flush();
 
@@ -79,7 +79,7 @@ public class Chat extends JFrame {
                 }
             }
         });
-
+        repaint();
     }
 
 
