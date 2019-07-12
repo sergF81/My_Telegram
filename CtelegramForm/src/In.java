@@ -14,36 +14,21 @@ public class In {
     int y = 1;
     public In(Socket client, JTextArea textIn) {
 
-       // Chat frame = new Chat(smm, nikname);
-
-      // frame.pack();
-    //    frame.setLocationRelativeTo(null);
-     //   frame.setVisible(true);
-
         try {
             while (true) {
-
-                BufferedReader sms = new BufferedReader(new InputStreamReader(client.getInputStream()));
-
+                BufferedReader sms = new BufferedReader(new InputStreamReader(client.getInputStream(), "Cp1251"));
                 message.add(sms.readLine());
 
                 for (int i = 0; i < y; i++) {
-
                     smm1 = message.get(i);
-
                 }
-
                 y++;
-
                 if (y == 100) {
-                    //     i = 99;
                     y--;
                     message.remove(0);
-
                 }
 
                 textIn.setText(textIn.getText() + smm1+"\n");
-
 
 System.out.println(textIn.getText());
 textIn.repaint();

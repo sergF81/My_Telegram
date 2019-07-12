@@ -5,15 +5,12 @@ import java.awt.event.ActionListener;
 import java.io.*;
 
 public class Chat extends JFrame {
-     public static JTextArea textIn = new JTextArea();
+    public static JTextArea textIn = new JTextArea();
     public static JPanel chatarea;
-  // public static JScrollPane jsp = new JScrollPane(textIn, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
     private String nikname;
 
     public Chat(String smm, String nikname) {
-
-
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -42,8 +39,6 @@ public class Chat extends JFrame {
         jsp.setBounds(0, 120, 400, 200);
         chatarea.add(jsp);
 
-
-
         JButton vvod = new JButton("RUB");
         vvod.setOpaque(false);
         vvod.setBounds(140, 385, 100, 23);
@@ -56,8 +51,6 @@ public class Chat extends JFrame {
         setContentPane(chatarea);
         setPreferredSize(new Dimension(690, 727));
 
-
-
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
@@ -66,12 +59,12 @@ public class Chat extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    String Sreader = textOut.getText();
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Client.client.getOutputStream()));
-                    writer.write(nikname + ": " + Sreader);
+
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Client.client.getOutputStream(), "Cp1251"));
+                    String Sreader = nikname + ": " + String.valueOf(textOut.getText());
+                    writer.write(Sreader);
                     writer.newLine();
                     writer.flush();
-
                     textOut.setText("");
 
                 } catch (IOException r) {
@@ -82,7 +75,4 @@ public class Chat extends JFrame {
         repaint();
     }
 
-
-
-   // }
 }
