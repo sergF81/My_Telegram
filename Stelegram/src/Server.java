@@ -3,48 +3,66 @@ import java.net.*;
 import java.util.ArrayList;
 
 public class Server implements Runnable {
-
     ServerSocket serverSocket;
-    ArrayList<Socket> user = new ArrayList<Socket>();
+    ArrayList<Socket> listSocked = new ArrayList<>();
+    ArrayList<String> listNickname = new ArrayList<>();
 
     {
         try {
             serverSocket = new ServerSocket(8000);
+            System.out.println("Сервер запущен");
         } catch (IOException e) {
-            e.printStackTrace();
 
         }
+
     }
 
     @Override
     public void run() {
+        while (true) {
 
-        System.out.println("Hi 1");
-        try {
-            while (true) {
+
+            try {
+
                 Client client = new Client(serverSocket.accept());
+
                 Thread clientThread = new Thread(client);
+                if (clientThread.isInterrupted()) {
+                    System.out.println("Привет");
+
+
+                }
                 clientThread.start();
+
+
+
+            } catch (IOException e) {
+
+
+                System.out.println("Обрыв соединения с клиентом");
+
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+
         }
+
+
     }
 
     public class Client implements Runnable {
         public Socket clientSocket;
+        private String nickname;
 
         public Client(Socket clientSocket) throws IOException {
-
-            System.out.println(clientSocket);
             this.clientSocket = clientSocket;
-            user.add(this.clientSocket);
+            listSocked.add(this.clientSocket);
 
-            for (int i = 0; i < user.size(); i++) {
+            BufferedReader readerNickname = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), "Cp1251"));
+            nickname = readerNickname.readLine();
+            listNickname.add(nickname);
 
-                System.out.println(user.get(i) + ": " + user.size());
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(user.get(i).getOutputStream(), "Cp1251"));
-                writer.write("Клиент: " + clientSocket + "присоединился к чату");
+            for (int i = 0; i < listSocked.size(); i++) {
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(listSocked.get(i).getOutputStream(), "Cp1251"));
+                writer.write("Клиент: " + nickname + " присоединился к чату");
                 writer.newLine();
                 writer.flush();
             }
@@ -53,18 +71,13 @@ public class Server implements Runnable {
         @Override
         public void run() {
             try {
-
                 while (true) {
-
                     BufferedReader readerS = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), "Cp1251"));
                     String Sreader1 = readerS.readLine();
                     System.out.println(Sreader1);
 
-                    for (int i = 0; i < user.size(); i++) {
-
-                        System.out.println(user.get(i) + ": " + user.size());
-                        // System.out.println(user.size());
-                        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(user.get(i).getOutputStream(), "Cp1251"));
+                    for (int i = 0; i < listSocked.size(); i++) {
+                        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(listSocked.get(i).getOutputStream(), "Cp1251"));
                         writer.write(Sreader1);
                         writer.newLine();
                         writer.flush();
@@ -75,20 +88,36 @@ public class Server implements Runnable {
                 }
             } catch (IOException e) {
                 try {
-                    for (int i = 0; i < user.size(); i++) {
-                        if (user.get(i) == clientSocket) user.remove(i);
-                        System.out.println("Клиент: " + clientSocket + "вышел из чата.");
+                    for (int i = 0; i < listSocked.size(); i++) {
+                        if (listSocked.get(i) == clientSocket) {
+                            listSocked.remove(i);
+                            listNickname.remove(i);
+                        }
                     }
-                    clientSocket.close();
+
+                    if (listSocked.size() != 0) {
+                        for (int i = 0; i < listSocked.size(); i++) {
+                            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(listSocked.get(i).getOutputStream(), "Cp1251"));
+                            writer.write("Клиент: " + nickname + " вышел из чата.");
+                            writer.newLine();
+                            writer.flush();
+                        }
+                    }
+                   //
 
                 } catch (IOException e1) {
 
                 }
+
+            }
+            try {
+                clientSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
     }
-
 
 }
 
