@@ -11,7 +11,6 @@ public class ChatInterface extends JFrame {
     private String nikname;
 
     public ChatInterface(String smm, String nikname) {
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         JPanel chatarea = new JPanel();

@@ -10,33 +10,45 @@ import java.net.Socket;
 public class Login extends JFrame {
     public String nikname;
     public static Socket client;
+
     public Login() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         JPanel login = new JPanel();
         login.setBounds(100, 320, 250, 80);
         login.setLayout((LayoutManager) null);
 
+        JLabel nikLabel = new JLabel("Ник: ");
+        nikLabel.setBounds(55, 20, 150, 17);
+        login.add(nikLabel);
+
         JTextField nik = new JTextField();
-        nik.setBounds(20, 20, 150, 15);
+        nik.setBounds(82, 20, 150, 17);
         login.add(nik);
 
-        JButton vvod_nika = new JButton("Ввод ника");
-        vvod_nika.setOpaque(false);
-        vvod_nika.setBounds(40, 40, 100, 23);
-        vvod_nika.setBackground(Color.LIGHT_GRAY);
-        login.add(vvod_nika);
+        JLabel server_adressLabel = new JLabel("Имя сервера: ");
+        server_adressLabel.setBounds(2, 50, 150, 17);
+        login.add(server_adressLabel);
+
+        JTextField serverAdress = new JTextField();
+        serverAdress.setBounds(82, 50, 150, 17);
+        login.add(serverAdress);
+
+        JButton vvod = new JButton("Принять");
+        vvod.setOpaque(false);
+        vvod.setBounds(80, 90, 150, 23);
+        vvod.setBackground(Color.LIGHT_GRAY);
+        login.add(vvod);
         setContentPane(login);
 
-        setPreferredSize(new Dimension(210, 120));
+        setPreferredSize(new Dimension(270, 160));
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
 
-
-        vvod_nika.addActionListener(new ActionListener() {
+        vvod.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                     client = new Socket("fortis", 8000);
+                    client = new Socket(serverAdress.getText(), 8000);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -55,14 +67,9 @@ public class Login extends JFrame {
                     e1.printStackTrace();
                 }
 
-
                 new ChatInterface("", nikname);
                 setVisible(false);
-
             }
-
         });
-
     }
-
 }
