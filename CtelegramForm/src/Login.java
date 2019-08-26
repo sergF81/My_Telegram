@@ -49,18 +49,11 @@ public class Login extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     client = new Socket(serverAdress.getText(), 8000);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
 
-                nikname = nik.getText();
-
-                System.out.println(nikname);
-                BufferedWriter writer = null;
-                try {
-                    writer = new BufferedWriter(new OutputStreamWriter(Login.client.getOutputStream(), "Cp1251"));
-                    String Sreader = nikname;
-                    writer.write(Sreader);
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Login.client.getOutputStream(), "Cp1251"));
+                    nikname = nik.getText();
+                    System.out.println(nikname);
+                    writer.write(nikname);
                     writer.newLine();
                     writer.flush();
                 } catch (IOException e1) {

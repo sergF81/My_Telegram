@@ -6,11 +6,8 @@ import java.io.*;
 
 public class ChatInterface extends JFrame {
     public static JTextArea textIn = new JTextArea();
-    public static JPanel chatarea;
 
-    private String nikname;
-
-    public ChatInterface(String smm, String nikname) {
+    public ChatInterface(String output_message, String nikname) {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         JPanel chatarea = new JPanel();
@@ -18,7 +15,7 @@ public class ChatInterface extends JFrame {
 
         JTextArea textOut = new JTextArea();
         textOut.setLineWrap(true);
-        textOut.setBounds(0, 0, 400, 100);
+        textOut.setBounds(0, 220, 400, 100);
         chatarea.add(textOut);
 
         textIn.setLineWrap(true);
@@ -27,28 +24,28 @@ public class ChatInterface extends JFrame {
         textIn.setBorder(null);
         textIn.setFocusable(false);
         textIn.setEditable(false);
-
-        textIn.setText(smm);
-        textIn.setBounds(0, 120, 400, 200);
+        textIn.setText(output_message);
+        textIn.setBounds(0, 0, 400, 200);
         textIn.setWrapStyleWord(true);
         textIn.setLineWrap(true);
+
         chatarea.add(textIn);
 
-        JScrollPane jsp = new JScrollPane(textIn);
-        jsp.setBounds(0, 120, 400, 200);
-        chatarea.add(jsp);
+        JScrollPane okno_vivoda = new JScrollPane(textIn);
+        okno_vivoda.setBounds(0, 0, 400, 200);
+        chatarea.add(okno_vivoda);
 
-        JButton vvod = new JButton("RUB");
+        JButton vvod = new JButton("Ввод");
         vvod.setOpaque(false);
-        vvod.setBounds(140, 385, 100, 23);
+        vvod.setBounds(140, 325, 100, 23);
         vvod.setBackground(Color.LIGHT_GRAY);
         chatarea.add(vvod);
 
-        JLabel background = new JLabel(new ImageIcon("bankomat.jpg"));
-        background.setBounds(0, 0, 690, 727);
+        JLabel background = new JLabel();
+        background.setBounds(0, 0, 400, 427);
         chatarea.add(background);
         setContentPane(chatarea);
-        setPreferredSize(new Dimension(690, 727));
+        setPreferredSize(new Dimension(400, 427));
 
         pack();
         setLocationRelativeTo(null);
@@ -58,12 +55,11 @@ public class ChatInterface extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(Login.client.getOutputStream(), "Cp1251"));
-                    String Sreader = nikname + ": " + String.valueOf(textOut.getText());
-                    writer.write(Sreader);
-                    writer.newLine();
-                    writer.flush();
+                    BufferedWriter out_writer = new BufferedWriter(new OutputStreamWriter(Login.client.getOutputStream(), "Cp1251"));
+                    String out_message = nikname + ": " + String.valueOf(textOut.getText());
+                    out_writer.write(out_message);
+                    out_writer.newLine();
+                    out_writer.flush();
                     textOut.setText("");
 
                 } catch (IOException r) {
@@ -71,7 +67,7 @@ public class ChatInterface extends JFrame {
                 }
             }
         });
-        repaint();
+      //  repaint();
     }
 
 }

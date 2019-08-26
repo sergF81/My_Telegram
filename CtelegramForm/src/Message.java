@@ -1,59 +1,38 @@
-import javax.swing.*;
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.Socket;
 import java.util.ArrayList;
 
-public class Message
-{
-
-    String smm1 = "";
+public class Message {
+    String output_message = "";   // переменная, которая содержит в себе сообшение дл явывода в окно чата
     ArrayList<String> message = new ArrayList<String>();
-    int y = 1;
+    int y = 1;  //переменная для счетчика ограничения количесчтва сообщений
 
-    public Message()
-    {
-        try
-        {
+    public Message() {
+        try {
 
-                    while (true)
-                        if (Login.client == null)
-                        {
-                            ChatInterface.textIn.setText(ChatInterface.textIn.getText() + "\n");
-                            ChatInterface.textIn.repaint();
-                        } else
-                            {smm1="";
-                                BufferedReader sms = new BufferedReader(new InputStreamReader(Login.client.getInputStream(), "Cp1251"));
-                                message.add(sms.readLine());
+            while (true)
+                if (Login.client == null) {
+                    ChatInterface.textIn.repaint();
+                } else {
+                    output_message = "";
+                    BufferedReader sms = new BufferedReader(new InputStreamReader(Login.client.getInputStream(), "Cp1251"));
+                    message.add(sms.readLine());
 
-                                for (int i = 0; i < y; i++)
-                                {
-                                 //   smm1 = message.get(i);
-                                    smm1 = smm1 + message.get(i)+"\n";
-                                    System.out.println(smm1);
-                                    ChatInterface.textIn.setText(smm1);
-                                }
-                                y++;
-                                if (y == 7)
-                                {
-                                    y--;
-                                    message.remove(0);
+                    for (int i = 0; i < y; i++) {  // цыкл для счетчика ограничения количесчтва сообщений
+                        output_message = output_message + message.get(i) + "\n";
+                        ChatInterface.textIn.setText(output_message);
+                        ChatInterface.textIn.setCaretPosition(ChatInterface.textIn.getText().length());
+                    }
+                    y++;
+                    if (y == 25) {
+                        y--;
+                        message.remove(0);
+                    }
 
-
-                                }
-
-                           //     ChatInterface.textIn.setText(ChatInterface.textIn.getText() + smm1 + "\n");
-
-                                ChatInterface.textIn.repaint();
-                               // System.out.println(ChatInterface.textIn.getText() + smm1 + "\n");
-                                //System.out.println(smm1);
-                            }
-
-
-        } catch (IOException e)
-        {
+                    ChatInterface.textIn.repaint();
+                }
+        } catch (IOException e) {
 
         }
     }
