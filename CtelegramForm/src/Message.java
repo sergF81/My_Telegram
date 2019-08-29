@@ -3,10 +3,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+/*
+ * @author fortis@tochka.com
+ * @created 27.08.19
+ */
+
+/*
+ Данный класс реализует получение входящих сообщений с сервера
+*/
+
 public class Message {
-    String output_message = "";   // переменная, которая содержит в себе сообшение дл явывода в окно чата
+    // переменная, которая содержит в себе сообшение дл явывода в окно чата
+    String output_message = "";
+    //массив для входящих сообщений
     ArrayList<String> message = new ArrayList<String>();
-    int y = 1;  //переменная для счетчика ограничения количесчтва сообщений
+    //переменная для счетчика ограничения количества сообщений
+    int y = 1;
 
     public Message() {
         try {
@@ -19,7 +31,8 @@ public class Message {
                     BufferedReader sms = new BufferedReader(new InputStreamReader(Login.client.getInputStream(), "Cp1251"));
                     message.add(sms.readLine());
 
-                    for (int i = 0; i < y; i++) {  // цыкл для счетчика ограничения количесчтва сообщений
+                    // цикл для счетчика ограничения количесчтва сообщений
+                    for (int i = 0; i < y; i++) {
                         output_message = output_message + message.get(i) + "\n";
                         ChatInterface.textIn.setText(output_message);
                         ChatInterface.textIn.setCaretPosition(ChatInterface.textIn.getText().length());
